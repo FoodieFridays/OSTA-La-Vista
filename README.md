@@ -3,7 +3,7 @@
 
 ## Getting Started
 1. Using a Raspberry Pi, download Python 3 and your IDE of choice. 
-2. From this repository, download `OSTA_La_Vista.py` for the most up-to-date version of the program.
+2. From this repository, download `OSTA_La_Vista.py` for the most up-to-date version of the program. `temp_alarm_sound.mp3` is also needed for the alarm sound
 3. Ensure you have the required external libraries downloaded using `pip`. Namely:
    - `requests`
    - `bs4`
@@ -11,6 +11,7 @@
    - `RPi.GPIO`
    - `smtplib`
    - `tkinter`
+   - `mpg321` (command line audio file player)
 5. Hook up green, yellow, and red LEDs to GPIO ports 18, 19, and 20, respectively.
 6. Run the Python file, and things should work as planned.
    - Recommended: see the following [explanation slideshow](https://docs.google.com/presentation/d/1XV7Bb-6rav0R7EuzITrXO-rq_EEMCxDK4tkTRmWyCxw/edit?usp=sharing) to understand exactly what this program is capable of!
