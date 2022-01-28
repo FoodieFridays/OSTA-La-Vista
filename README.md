@@ -20,6 +20,11 @@ OSTA web scraper, for checking the status of school buses in Ottawa
 - 2-Factor Authentication has been set up for this account.
 - This account is worthless anyways; it has only been set up to work as a "bus bot" emailing system.
 
+## Licence
+This project is free and open-source, so long that it is not used for commercial purposes [(CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/).
+
+SOFTWARE IS PROVIDED “AS-IS”, WITHOUT A WARRANTY OF ANY KIND.
+
 ## About
 This project was only made as part of my high school CS class; it is by no means a comprehensive program, nor was it intended to be.
 If you experience issues, that's expected. This program is not yet bullet-proof!
