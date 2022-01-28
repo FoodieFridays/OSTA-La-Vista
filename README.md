@@ -31,7 +31,7 @@ This project was only made as part of my high school CS class; it is by no means
 If you experience issues, that's expected. This program is not yet bullet-proof!
 
 ## Support
-Should you run into any issues while using this program, please feel free to start and "Issues Thread" or contact me. I'm always happy to help, but you probably know more than I do :)
+Should you run into any issues while using this program, please feel free to start an "Issues Thread" or contact me. I'm always happy to help, but you probably know more than I do :)
 
 ## Features Coming in v2.0
 This program is just the very beginning. I still have lots of ideas for how I want to expand this project, inlcuded, but not limited to, the following:
