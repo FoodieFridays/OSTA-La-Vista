@@ -4,7 +4,7 @@
 ## Getting Started
 1. Using a Raspberry Pi, download Python 3, and optionally, your IDE of preference. 
 2. From this repository, download `OSTA_La_Vista.py` for the most up-to-date version of the program. `temp_alarm_sound.mp3` is also needed for the alarm sound
-3. Ensure you have the required external libraries downloaded using `pip3 install` from the terminal. Namely:
+3. Ensure you have the required external libraries downloaded using `pip3 install` from the terminal. Namely, you'll need:
    - `requests`
    - `bs4`
    - `gtts`
