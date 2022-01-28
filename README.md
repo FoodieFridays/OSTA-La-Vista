@@ -13,7 +13,7 @@ OSTA web scraper, for checking the status of school buses in Ottawa
    - `tkinter`
 5. Hook up green, yellow, and red LEDs to GPIO ports 18, 19, and 20, respectively.
 6. Run the Python file, and things should work as planned.
-   - If required, see the following [explanation slideshow](https://docs.google.com/presentation/d/1XV7Bb-6rav0R7EuzITrXO-rq_EEMCxDK4tkTRmWyCxw/edit?usp=sharing)
+   - Recommended: see the following [explanation slideshow](https://docs.google.com/presentation/d/1XV7Bb-6rav0R7EuzITrXO-rq_EEMCxDK4tkTRmWyCxw/edit?usp=sharing) to understand exactly what this program is capable of!
 
 **Important Note:** You may think that the email password in the `.py` file will give you access to my entire Google account. This is an incorrect assumption:
 - This password is what's known as an "App Password", that can only be used for the sole purpose of sending emails via a script.
