@@ -1,5 +1,5 @@
 # OSTA-La-Vista
-OSTA web scraper, for checking the status of school buses in Ottawa
+[OSTA](http://www.ottawaschoolbus.ca/) web scraper, for checking the status of school buses in Ottawa
 
 ## Getting Started
 1. Using a Raspberry Pi, download Python 3 and your IDE of choice. 
