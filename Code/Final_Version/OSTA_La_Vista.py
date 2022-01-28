@@ -1,6 +1,7 @@
 '''
 OSTA La Vista! -- A Webscraper Program
 
+For Testing:
 Snow Day/Buses Cancelled (Red Light): https://web.archive.org/web/20211206133450/http://www.ottawaschoolbus.ca/
 V97 and Others Cancelled (Yellow Light): https://web.archive.org/web/20201125113958/http://www.ottawaschoolbus.ca/cancellation-delay-details/
 All Transportation Operational (Green Light): https://web.archive.org/web/20201021102548/http://www.ottawaschoolbus.ca/cancellation-delay-details/
@@ -87,7 +88,7 @@ window.mainloop()
 
 
 # Website to Scrape
-result = requests.get("http://www.ottawaschoolbus.ca/cancellation-delay-details/")
+result = requests.get("http://www.ottawaschoolbus.ca/cancellation-delay-details/")      # current
 
 # Initializing the 'Soup' for Scraping
 soup = bs4.BeautifulSoup(result.text,"lxml")
@@ -105,9 +106,9 @@ check_time = tableArea[17:endOfDate]
 # Boolean Conditions
 schoolsOpen = "schools are open" in tableArea
 
-result = requests.get("https://web.archive.org/web/20211206133450/http://www.ottawaschoolbus.ca/")    # snow day
+#result = requests.get("https://web.archive.org/web/20211206133450/http://www.ottawaschoolbus.ca/")    # snow day
 #result = requests.get("https://web.archive.org/web/20201021102548/http://www.ottawaschoolbus.ca/")    # normal
-#result = requests.get("http://www.ottawaschoolbus.ca/")    # current
+result = requests.get("http://www.ottawaschoolbus.ca/")    # current
 soup = bs4.BeautifulSoup(result.text,"lxml")
 tableArea = soup.select(".alert")[0].getText()
 
