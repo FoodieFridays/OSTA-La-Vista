@@ -20,12 +20,14 @@ import getpass
 from tkinter import *
 import datetime
 
+# RPi GPIO Setup
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(18, GPIO.OUT)
 GPIO.setup(19, GPIO.OUT)
 GPIO.setup(20, GPIO.OUT)
 
+# Emailing Setup
 smtp_object = smtplib.SMTP("smtp.gmail.com",587)
 smtp_object.ehlo()
 smtp_object.starttls()
@@ -34,9 +36,11 @@ password = "tfajkbrbhweeurzo"    				# an 'App Password', that can only be used 
 smtp_object.login(from_address,password)
 email_msg = []
 
+# User Prompt
 busNum = input("Please enter your bus number: ")
 to_address = input("Please enter your email address: ")
 
+# TTS Config
 print("\nText to Speech Configuration:")
 print("\t-> 'A' = ALWAYS enabled")
 print("\t-> 'N' = NEVER enabled")
@@ -44,9 +48,11 @@ print("\t-> 'C' = CONDITIONALLY enabled; only enabled if buses are NOT cancelled
 
 wakeup_message = input("\nSelect an option above [A,N,C]: ").lower()
 
+# If invalid input, alarm will be conditionally enabled
 if wakeup_message != 'a' and wakeup_message != 'n' and wakeup_message != 'c':
     wakeup_message = 'c';
 
+# GUI Alarm
 def Alarm(set_alarm_timer):
     while True:
         time.sleep(1)
@@ -59,11 +65,13 @@ def Alarm(set_alarm_timer):
             print("Time to wake up!")
             window.destroy()
             break
- 
+
+# Gets User's Alarm Time
 def get_alarm_time():
     alarm_set_time = hour.get() + ":" + min.get() + ":" + sec.get()
     Alarm(alarm_set_time)
- 
+
+# Tkinter GUI Window Config
 window = Tk()
 window.title("Alarm Clock")
 window.geometry("400x160")
@@ -83,7 +91,8 @@ minTime= Entry(window,textvariable = min,bg = "#48C9B0",width = 4,font=(20)).pla
 secTime = Entry(window,textvariable = sec,bg = "#48C9B0",width = 4,font=(20)).place(x=330,y=40)
  
 submit = Button(window,text = "Set Your Alarm",fg="Black",bg="#D4AC0D",width = 15,command = get_alarm_time,font=(20)).place(x =100,y=80)
- 
+
+# Continue Until Time is Set
 window.mainloop()
 
 
@@ -95,37 +104,36 @@ soup = bs4.BeautifulSoup(result.text,"lxml")
 
 # Scraping the ID 'tableArea' that contains bus status data
 tableArea = soup.select("#tableArea")[0].getText()
-#print(tableArea)
+#print(tableArea) --> Returns entire tableArea ID arrary (for testing)
 
-# Formatting
+# Pretty Formatting
 endOfDate = tableArea.find("School Status")
 print("\nAs of " + tableArea[17:endOfDate] + "...")
 email_msg.append("As of " + tableArea[17:endOfDate] + "...")
 check_time = tableArea[17:endOfDate]
 
-# Boolean Conditions
+# Boolean Condition
 schoolsOpen = "schools are open" in tableArea
 
+# 'result' Gets Redefined
 #result = requests.get("https://web.archive.org/web/20211206133450/http://www.ottawaschoolbus.ca/")    # snow day
 #result = requests.get("https://web.archive.org/web/20201021102548/http://www.ottawaschoolbus.ca/")    # normal
 result = requests.get("http://www.ottawaschoolbus.ca/")    # current
 soup = bs4.BeautifulSoup(result.text,"lxml")
 tableArea = soup.select(".alert")[0].getText()
 
-#print(tableArea)
+#print(tableArea) --> Returns entire alert class arrary (for testing)
 
+# Boolean Condition
 transportationNormal = not "cancelled" in tableArea
 
-# for testing
-#print("Schools Open: " + str(schoolsOpen))
-#print("Transportation Normal: " + str(transportationNormal))
-
-# Gets Redefined
+# 'result' Gets Redefined... again
 #result = requests.get("https://web.archive.org/web/20201125113958/http://www.ottawaschoolbus.ca/cancellation-delay-details/")    # V97 cancelled
-result = requests.get("http://www.ottawaschoolbus.ca/cancellation-delay-details/")    # current
 #result = requests.get("https://web.archive.org/web/20201021102548/http://www.ottawaschoolbus.ca/cancellation-delay-details/")    # normal
+result = requests.get("http://www.ottawaschoolbus.ca/cancellation-delay-details/")    # current
 soup = bs4.BeautifulSoup(result.text,"lxml")
 tableArea = soup.select("#bigTable")[0].getText()
+# Checking for their Bus Delay
 busDelayed = busNum in tableArea
 
 # School Status
@@ -154,6 +162,7 @@ elif busDelayed:
         os.system("mpg321 TTS_message.mp3")
     
     for i in range(0, len(result)):
+        # School Name Extraction from Cryptic String
         start = result[i]
         end = tableArea.find('\n', start)
         
@@ -191,15 +200,16 @@ if schoolsOpen and transportationNormal and not busDelayed:
     time.sleep(3)
     GPIO.output(18, False)
     
+    # To Fetch Time of Scrape
     result = requests.get("http://www.ottawaschoolbus.ca/cancellation-delay-details/")
     soup = bs4.BeautifulSoup(result.text,"lxml")
     tableArea = soup.select("#tableArea")[0].getText()
     
-    if wakeup_message != 'n': # GIVING ERROR!
+    if wakeup_message != 'n':
         myobj = gTTS(text="As of " + tableArea[17:endOfDate] + ", schools are open and buses are functioning normally, unless otherwise stated in general notices. Hey Google, turn on the light and change it to green.", lang="en", slow=False)
         myobj.save("TTS_message.mp3")
         os.system("mpg321 TTS_message.mp3")
-elif busDelayed:  #add timestamps
+elif busDelayed:
     subject = str(busNum) + " Has Been Delayed"
     print("\nTherefore, your bus has been delayed or cancelled!")
     email_msg.append("\nTherefore, your bus has been delayed or cancelled!")
@@ -223,6 +233,7 @@ else:
     time.sleep(3)
     GPIO.output(20, False)
     
+    # To Fetch Time of Scrape
     result = requests.get("http://www.ottawaschoolbus.ca/cancellation-delay-details/")
     soup = bs4.BeautifulSoup(result.text,"lxml")
     tableArea = soup.select("#tableArea")[0].getText()
@@ -232,17 +243,8 @@ else:
         myobj.save("TTS_message.mp3")
         os.system("mpg321 TTS_message.mp3")
     
-#print(email_msg)
+# Finalizing the Email
 end_of_msg = "\n".join(str(x) for x in email_msg)
-#print(end_of_msg)
 final_msg = "Subject: " + subject + "\n" + "\n" + "BafflingBusBot here! The following updates have been issued:" + "\n\n" + end_of_msg + "\n" + "\n" + "Baffle On!" + "\n" + "- BafflingBusBot"
-#final_msg = "Subject: " + subject + "\n" + "\n".join(str(x) for x in message)
-#print(final_msg)
-#print("Subject: " + "Bus Status" + "\n" + "\n".join(str(x) for x in email_msg))
 smtp_object.sendmail(from_address,to_address,final_msg)
 smtp_object.quit()
-
-
-
-
-
